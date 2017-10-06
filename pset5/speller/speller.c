@@ -65,7 +65,7 @@ int main(int argc, char *argv[])
 
     // Prepare to spell-check
     int index = 0, misspellings = 0, words = 0;
-    char word[LENGTH+1];
+    char word[LENGTH + 1];
 
     // Spell-check each word in text
     for (int c = fgetc(file); c != EOF; c = fgetc(file))
@@ -171,15 +171,13 @@ int main(int argc, char *argv[])
     printf("TIME IN size:         %.2f\n", time_size);
     printf("TIME IN unload:       %.2f\n", time_unload);
     printf("TIME IN TOTAL:        %.2f\n\n",
-     time_load + time_check + time_size + time_unload);
+           time_load + time_check + time_size + time_unload);
 
     // Success
     return 0;
 }
 
-/**
- * Returns number of seconds between b and a.
- */
+// Returns number of seconds between b and a
 double calculate(const struct rusage *b, const struct rusage *a)
 {
     if (b == NULL || a == NULL)
@@ -189,9 +187,9 @@ double calculate(const struct rusage *b, const struct rusage *a)
     else
     {
         return ((((a->ru_utime.tv_sec * 1000000 + a->ru_utime.tv_usec) -
-                 (b->ru_utime.tv_sec * 1000000 + b->ru_utime.tv_usec)) +
-                ((a->ru_stime.tv_sec * 1000000 + a->ru_stime.tv_usec) -
-                 (b->ru_stime.tv_sec * 1000000 + b->ru_stime.tv_usec)))
+                  (b->ru_utime.tv_sec * 1000000 + b->ru_utime.tv_usec)) +
+                 ((a->ru_stime.tv_sec * 1000000 + a->ru_stime.tv_usec) -
+                  (b->ru_stime.tv_sec * 1000000 + b->ru_stime.tv_usec)))
                 / 1000000.0);
     }
 }

@@ -5,19 +5,24 @@
  * d. 2017-10-05
  */
 
-#include<stdio.h>
-#include<cs50.h>
-#include<string.h>
+#include <stdio.h>
+#include <cs50.h>
+#include <string.h>
+#include <ctype.h>
 
-int hash_function(char *word);
+// Define number of buckets for hash table.
+#define NUM_BUCKETS 27
+
+// Declare Functions
+unsigned int hash_word(const char* word);
 
 int main(void)
 {
     // Define Variables
-    char * hashtable[27];
+    char * hashtable[NUM_BUCKETS];
     int runtime = 100;
     // Initializes all array elements to be empty
-    for (int j = 0; j < 27; j++)
+    for (int j = 0; j < NUM_BUCKETS; j++)
         {
             hashtable[j] = "";
         }
@@ -33,12 +38,12 @@ int main(void)
             printf("error on the high seas! Gotta enter something!");
             break;
         }
-        int hash = hash_function(word);
+        int hash = hash_word(word);
 
         hashtable[hash] = word;
 
         // Iterate through Hashtable and print entire table
-        for (int j = 0; j < 27; j++)
+        for (int j = 0; j < NUM_BUCKETS; j++)
         {
            printf("%s\n", hashtable[j]);
         }
@@ -46,12 +51,19 @@ int main(void)
 }
 
 // Hash Function
-int hash_function(char *word)
-{
-    int hash = (word[0] | ('a' - 'A')) -'a';
-    if (word[0] == '\'')
-    {
-        hash = 26;
-    }
-    return hash;
-}
+
+/*
+ * Adapted by Neel Mehta from
+ * http://stackoverflow.com/questions/2571683/djb2-hash-function.
+ */
+unsigned int hash_word(const char* word)
+ {
+     unsigned long hash = 5381;
+
+     for (const char* ptr = word; *ptr != '\0'; ptr++)
+     {
+         hash = ((hash << 5) + hash) + tolower(*ptr);
+     }
+
+     return hash % NUM_BUCKETS;
+ }

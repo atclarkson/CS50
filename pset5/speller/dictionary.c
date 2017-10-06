@@ -1,44 +1,63 @@
 // Implements a dictionary's functionality
 
-#include <ctype.h>
 #include <stdbool.h>
-#include <strings.h>
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <cs50.h>
 
 #include "dictionary.h"
+
+// Define Structure
+typedef struct node
+{
+    char word[LENGTH + 1];
+    struct node* next;
+}
+node;
+
+// Define Array of Node Structures
+node *hashtable[NUM_BUCKETS];
+
+// Global Variable for Tracking word count
+unsigned int word_counter = 0;
+// Globale variable for tracking dictionary load state
+bool loaded = false;
+
+// Hash Function
+/*
+ * Adapted by Neel Mehta from
+ * http://stackoverflow.com/questions/2571683/djb2-hash-function.
+ */
+unsigned int hash_word(const char* word)
+ {
+     unsigned long hash = 5381;
+     for (const char* ptr = word; *ptr != '\0'; ptr++)
+     {
+         hash = ((hash << 5) + hash) + tolower(*ptr);
+     }
+     return hash % NUM_BUCKETS;
+ }
+
 
 // Returns true if word is in dictionary else false
 bool check(const char *word)
 {
-    if (search(word, hashtable[hash(word)]))
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
+    // Hash the word
+    int hashed = hash_word(word);
 
-bool search(const char *word, node *list)
-{
-    // create a traversal pointer
-    node *ptr = list;
+    // assign pointer node to the first node of the bucket
+    node* pointer = hashtable[hashed];
 
-    // traverse until the end of the list
-    while (ptr != NULL)
+    // check until the end of the linked list
+    while (cursor != NULL)
     {
-        // if current word field is what we are looking for, return true
-        if (strcasecmp(ptr->word, *word))
+        if (strcmp(pointer->word, word) == 0)
         {
+            // word is in dictionary
             return true;
         }
-
-        // if not, set ptr to the next pointer in the list
-        ptr = ptr->next;
+        else
+        {
+            // check next node
+            pointer = pointer->next;
+        }
     }
     return false;
 }
@@ -46,117 +65,98 @@ bool search(const char *word, node *list)
 // Loads dictionary into memory, returning true if successful else false
 bool load(const char *dictionary)
 {
+    // Initializes all array elements to be NULL
+    for (int i = 0; i < NUM_BUCKETS; i++)
+        {
+            hashtable[i] = NULL;
+        }
+
     // Open dictionary for reading
-    FILE *d_ptr = fopen(dictionary, "r");
+    FILE *pFile = fopen(dictionary, "r");
     // Check that dictionary is not null,  return error if null.
-    if (dictionary == NULL)
+    if (pFile == NULL)
     {
         fprintf(stderr, "Unable to open %s.\n", dictionary);
-        return 2;
-    }
-    int* counter = malloc(sizeof(int));
-    // check to make sure we didn't run out of memory
-    if (counter == NULL)
-    {
-        unload();
         return false;
     }
-    *counter = 0;
-    int count = 0;
-    string word = NULL;
-    while (fscanf(d_ptr, "%s", word) != EOF)
+
+    // Allocate memory for each new word
+    node * new_node = malloc(sizeof(node));
+    // Check that enough memory is available
+    if (new_node == NULL)
     {
-        count++;
-        int l = hash(word);
-
-        if (hashtable[l] == NULL)
-        {
-            // dynamically allocate size for a new node
-            node *new = malloc(sizeof(node));
-
-            // check to make sure we didn't run out of memory
-            if (new == NULL)
-            {
-            	unload();
-            	return false;
-            }
-
-            // initialize the word field
-            strcpy(new->word, word);
-
-            // initialize the next field
-            new->next = hashtable[l];
-
-            // Hashtable[l] now points to the new list
-            hashtable[l] = new;
-        }
-        else
-        {
-            //dynamically allocate space for a new node
-            node *add = malloc(sizeof(node));
-
-            //check to make sure we didn’t run out of memory
-            if (add == NULL)
-            {
-            	unload();
-            	return false;
-            }
-
-            // initialize the word field
-            strcpy(add->word, word);
-
-            // initialize the next field
-            add -> next = NULL;
-
-            add -> next = hashtable[l];
-            hashtable[l] = add;
-        }
+        fprintf(stderr, "Not enought memory\n");
+        return false;
     }
 
-    // close infile
-    fclose(d_ptr);
-    *counter = count;
-    return (*counter == 0) ? false : true;
+    // Scan through Dictionary word by word until end of file is reached
+    while(fscanf(pFile, "%s", new_node->word) != EOF)
+    {
+         // Allocate memory for each new word
+        node * new_node = malloc(sizeof(node));
+        // Check that enough memory is available
+        if (new_node == NULL)
+        {
+            fprintf(stderr, "Not enought memory\n");
+            return false;
+        }
+
+        new_node->next = NULL;
+
+        // Increase word counter
+        word_counter++;
+
+        // Hash the word
+        int hashed = hash_word(new_node->word);
+        node *head = hashtable[hashed];
+
+        // If bucket is empty insert first node
+        if (head == NULL)
+        {
+            hashtable[hashed] = new_node;
+        }
+
+        // If bucket is not empty Insert Word into hash table
+        else
+        {
+            new_node->next = hashtable[hashed];
+            hashtable[hashed] = new_node;
+        }
+    }
+    // Close the Dictionary
+    fclose(pFile);
+    loaded = true;
+    return true;
 }
 
 // Returns number of words in dictionary if loaded else 0 if not yet loaded
 unsigned int size(void)
 {
-    // TODO
-    int count = *counter;
-    if (count < 0)
+    if (loaded)
     {
-        return count;
+        return worder_counter;
     }
-
+    else
+    {
+        return 0;
+    }
     return 0;
 }
 
 // Unloads dictionary from memory, returning true if successful else false
 bool unload(void)
 {
-    // TODO
-
-    //free(d_ptr);
-    //free(counter);
-    return false;
-}
-
-// Hashes word to determine appropiate location in hashtable
-int hash(const char *word)
-{
-    if (word[0] == '\'')
+    for (int i = 0; i < NUM_BUCKETS; i++)
     {
-        return 26;
-    }
-    else if (isalpha(word[0]))
-    {
-        int a = word[0];
-        if ((a >= 65) && (a >= 90))
+        node *pointer = hashtable[i];
+        while (pointer != NULL)
         {
-            a = a + 32;
+            // Destroy nodes
+            node* temp = pointer;
+            pointer = pointer->next;
+            free(temp);
         }
-        return a - 'a';
     }
-    return 0;
+    loaded = false;
+    return true;
 }
