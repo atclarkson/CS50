@@ -9,6 +9,8 @@
 #include<cs50.h>
 #include<string.h>
 
+int hash_function(char *word);
+
 int main(void)
 {
     // Define Variables
@@ -25,28 +27,31 @@ int main(void)
     {
         // Get a single word from user
         char *word = get_string("Please enter a single word: ");
+        // Check that user entered a string
         if (word == NULL)
         {
             printf("error on the high seas! Gotta enter something!");
             break;
         }
+        int hash = hash_function(word);
 
-        int letter = (word[0] | ('a' - 'A')) -'a';
-        if (word[0] == '\'')
-        {
-            letter = 26;
-        }
-        //printf("the first letter is %c\n", letter);
-        hashtable[letter] = word;
+        hashtable[hash] = word;
+
+        // Iterate through Hashtable and print entire table
         for (int j = 0; j < 27; j++)
         {
-            // for (int k = 0, n = strlen(word); k < n; k++)
-            // {
-
-            // }
-            printf("%s\n", hashtable[j]);
+           printf("%s\n", hashtable[j]);
         }
     }
+}
 
-
+// Hash Function
+int hash_function(char *word)
+{
+    int hash = (word[0] | ('a' - 'A')) -'a';
+    if (word[0] == '\'')
+    {
+        hash = 26;
+    }
+    return hash;
 }
