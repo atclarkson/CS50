@@ -14,7 +14,7 @@ int main(void)
     // Define Variables
     char * hashtable[27];
     int runtime = 100;
-
+    // Initializes all array elements to be empty
     for (int j = 0; j < 27; j++)
         {
             hashtable[j] = "";
