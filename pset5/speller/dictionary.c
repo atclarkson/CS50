@@ -1,6 +1,10 @@
 // Implements a dictionary's functionality
 
 #include <stdbool.h>
+#include <cs50.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
 
 #include "dictionary.h"
 
@@ -35,23 +39,36 @@ unsigned int hash_word(const char* word)
      return hash % NUM_BUCKETS;
  }
 
-
 // Returns true if word is in dictionary else false
 bool check(const char *word)
 {
+    // create copy of word
+    int length = strlen(word);
+    char word_copy[length + 1];
+
+    // convert word to lowercase
+    for (int i = 0; i < length; i++)
+    {
+       word_copy[i] = tolower(word[i]);
+    }
+
+    // add null terminator to end of char array
+    word_copy[length] = '\0';
+
     // Hash the word
-    int hashed = hash_word(word);
+    int hashed = hash_word(word_copy);
 
     // assign pointer node to the first node of the bucket
     node* pointer = hashtable[hashed];
 
     // check until the end of the linked list
-    while (cursor != NULL)
+    while (pointer != NULL)
     {
-        if (strcmp(pointer->word, word) == 0)
+        if (strcmp(pointer->word, word_copy) == 0)
         {
             // word is in dictionary
             return true;
+
         }
         else
         {
@@ -80,20 +97,11 @@ bool load(const char *dictionary)
         return false;
     }
 
-    // Allocate memory for each new word
-    node * new_node = malloc(sizeof(node));
-    // Check that enough memory is available
-    if (new_node == NULL)
-    {
-        fprintf(stderr, "Not enought memory\n");
-        return false;
-    }
-
     // Scan through Dictionary word by word until end of file is reached
-    while(fscanf(pFile, "%s", new_node->word) != EOF)
+    while(true)
     {
-         // Allocate memory for each new word
-        node * new_node = malloc(sizeof(node));
+        // Allocate memory for each new word
+        node *new_node = malloc(sizeof(node));
         // Check that enough memory is available
         if (new_node == NULL)
         {
@@ -101,7 +109,14 @@ bool load(const char *dictionary)
             return false;
         }
 
+        fscanf(pFile, "%s", new_node->word);
         new_node->next = NULL;
+
+        if (feof(pFile))
+        {
+            free(new_node);
+            break;
+        }
 
         // Increase word counter
         word_counter++;
@@ -134,7 +149,7 @@ unsigned int size(void)
 {
     if (loaded)
     {
-        return worder_counter;
+        return word_counter;
     }
     else
     {
