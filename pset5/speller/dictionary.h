@@ -9,7 +9,7 @@
 // Maximum length for a word
 // (e.g., pneumonoultramicroscopicsilicovolcanoconiosis)
 #define LENGTH 45
-#define NUM_BUCKETS 50
+#define NUM_BUCKETS 143091
 
 // Prototypes
 bool check(const char *word);

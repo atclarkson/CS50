@@ -42,8 +42,17 @@ unsigned int hash_word(const char* word)
 // Returns true if word is in dictionary else false
 bool check(const char *word)
 {
-    // create copy of word
-    int length = strlen(word);
+    //create copy of word
+    int length = 0;
+    for (int i = 0; word[i] != '\0'; i++)
+    {
+        length++;
+    }
+
+    // unsigned int length=0;
+    // while(*(word+length) ) length++;
+
+
     char word_copy[length + 1];
 
     // convert word to lowercase
