@@ -10,6 +10,7 @@
 // (e.g., pneumonoultramicroscopicsilicovolcanoconiosis)
 #define LENGTH 45
 #define NUM_BUCKETS 143091
+//#define NUM_BUCKETS 70000
 
 // Prototypes
 bool check(const char *word);
