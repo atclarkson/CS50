@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
     printf("TIME IN check:        %.2f\n", time_check);
     printf("TIME IN size:         %.2f\n", time_size);
     printf("TIME IN unload:       %.2f\n", time_unload);
-    printf("TIME IN TOTAL:        %.2f\n\n",
+    printf("TIME IN TOTAL:        %.2f\n",
            time_load + time_check + time_size + time_unload);
 
     // Success
