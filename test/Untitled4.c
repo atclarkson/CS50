@@ -1,14 +1,22 @@
-# Fair and Balanced
+// Implement a function called balanced that accepts two parameters:
+// an array of integers, array, and an integer, n, that represents
+// the length of array. The function should return true if array is
+// balanced and false otherwise. Assume that n is positive.
+#include <cs50.h>
+#include <stdio.h>
 
-## Questions
+bool balanced (int a[], int n);
 
-1. Yes
+int main (void)
+{
+    int b[] = {30, 22, 11, -14, 66, 1};
+    int length = 6;
 
-2. Yes
+    bool check = balanced(b,length);
+    printf("%i", check);
 
-3.
+}
 
-```c
 bool balanced (int a[], int n)
 {
     // Declare variables for the sum of left and right side and initialize to 0
@@ -34,10 +42,3 @@ bool balanced (int a[], int n)
     bool result = left == right ? true : false;
     return result;
 }
-```
-
-## Debrief
-
-1. My Brain
-
-2. 1 hour

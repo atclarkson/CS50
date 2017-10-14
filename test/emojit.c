@@ -1,16 +1,25 @@
-# Emoji
+#include <cs50.h>
+#include <locale.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <wchar.h>
 
-## Questions
+typedef wchar_t emoji;
 
-1. As many as 4
+emoji get_emoji(string prompt);
 
-2. sizeof(char) == 1 byte
-   emoji > 1 byte
-    In other words, it won't fit.
+int main(void)
+{
+    // Set locale according to environment variables
+    setlocale(LC_ALL, "");
 
-3.
+    // Prompt user for code point
+    emoji c = get_emoji("Code point: ");
 
-```c
+    // Print character
+    printf("%lc\n", c);
+}
+
 emoji get_emoji(string prompt)
 {
     // Get a string from user
@@ -28,10 +37,3 @@ emoji get_emoji(string prompt)
     // }
     return false;
 }
-```
-
-## Debrief
-
-1. Spent about an hours so far,
-
-2. TODO
