@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+    <!--<div class="col">-->
+    <!--    <form action="/compare" enctype="multipart/form-data" method="post">-->
+    <!--        <div class="form-group">-->
+    <!--            <label for="file1">Upload File 1</label>-->
+    <!--            <input type="file" class="form-control-file" id="file1" aria-describedby="fileHelp">-->
+    <!--            <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>-->
+    <!--        </div>-->
+    <!--        <div class="form-group">-->
+    <!--            <label for="file2">Upload File 2</label>-->
+    <!--            <input type="file" class="form-control-file" id="files2" aria-describedby="fileHelp">-->
+    <!--            <small id="fileHelp" class="form-text text-muted">This is some placeholder block-level help text for the above input. It's a bit lighter and easily wraps to a new line.</small>-->
+    <!--        </div>-->
+    <!--        <fieldset class="form-group">-->
+    <!--            <legend>Radio buttons</legend>-->
+    <!--            <div class="form-check">-->
+    <!--                <label class="form-check-label">-->
+    <!--                    <input type="radio" class="form-check-input" name="algorithm" id="lines" value="lines">-->
+    <!--                    Compare lines-->
+    <!--                </label>-->
+    <!--            </div>-->
+    <!--            <div class="form-check">-->
+    <!--                <label class="form-check-label">-->
+    <!--                    <input type="radio" class="form-check-input" name="algorithm" id="sentences" value="sentences">-->
+    <!--                    Compare sentences-->
+    <!--                </label>-->
+    <!--            </div>-->
+    <!--            <div class="form-check">-->
+    <!--            <label class="form-check-label">-->
+    <!--                <input class="form-check-input" name="algorithm" type="radio" value="substrings"/>-->
+    <!--                Compare substrings-->
+    <!--                <input class="form-control form-control-sm" min="1" name="length" placeholder="of length n" type="number"/>-->
+    <!--            </label>-->
+    <!--        </div>-->
+    <!--        </fieldset>-->
+    <!--        <button class="btn btn-default" type="submit">Compare</button>-->
+    <!--    </form>-->
+    <!--</div>-->
+
+    <div class="col">
+    <form action="/compare" enctype="multipart/form-data" method="post">
+        <div class="form-group">
+            <input class="form-control-file" name="file1" type="file"/>
+        </div>
+        <div class="form-group">
+            <input class="form-control-file" name="file2" type="file"/>
+        </div>
+        <div class="form-group">
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" name="algorithm" type="radio" value="lines"/>
+                    Compare lines
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" name="algorithm" type="radio" value="sentences"/>
+                    Compare sentences
+                </label>
+            </div>
+            <div class="form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" name="algorithm" type="radio" value="substrings"/>
+                    Compare substrings
+                    <input class="form-control form-control-sm" min="1" name="length" placeholder="of length n" type="number"/>
+                </label>
+            </div>
+        </div>
+        <button class="btn btn-default" type="submit">Compare</button>
+    </form>
+</div>
+
+{% endblock %}

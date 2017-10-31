@@ -1,0 +1,128 @@
+[1mdiff --git a/pset1/cash/cash.c b/pset1/cash/cash.c[m
+[1mdeleted file mode 100644[m
+[1mindex c17f481..0000000[m
+[1m--- a/pset1/cash/cash.c[m
+[1m+++ /dev/null[m
+[36m@@ -1,51 +0,0 @@[m
+[31m-#include <stdio.h>[m
+[31m-#include <cs50.h>[m
+[31m-#include <math.h>[m
+[31m-[m
+[31m-int main(void)[m
+[31m-{[m
+[31m-    /* Prompt User for the amount of change owed */[m
+[31m-    float userchange = get_float("Change owed: ");[m
+[31m-    //Check that number is positve[m
+[31m-    while (userchange < 0.00)[m
+[31m-    {[m
+[31m-        userchange = get_float("Change owed: ");[m
+[31m-    }[m
+[31m-    //Cast Float to an int[m
+[31m-    userchange *= 100;[m
+[31m-    //printf("%f", round(userchange));[m
+[31m-    userchange = round(userchange);[m
+[31m-    int change = (int)userchange;[m
+[31m-    //Declare counter variable to keep track of how many coins are returned[m
+[31m-    int counter = 0;[m
+[31m-    //printf("counter is now %i, and remaining money is %i\n", counter, change);[m
+[31m-    // Quarter loop[m
+[31m-    while (change >= 25)[m
+[31m-    {[m
+[31m-        change -= 25;[m
+[31m-        counter++;[m
+[31m-        //printf("gave back a quarter, total change is now %i, and remaining money is %i\n", counter, change);[m
+[31m-    }[m
+[31m-    // Dime loop[m
+[31m-    while (change >= 10)[m
+[31m-    {[m
+[31m-        change -= 10;[m
+[31m-        counter++;[m
+[31m-        //printf("gave back a dime, total change is now %i, and remaining money is %i\n", counter, change);[m
+[31m-    }[m
+[31m-    // Nickle loop[m
+[31m-    while (change >= 5)[m
+[31m-    {[m
+[31m-        change -= 5;[m
+[31m-        counter++;[m
+[31m-        //printf("gave back a nickle, total change is now %i, and remaining money is %i\n", counter, change);[m
+[31m-    }[m
+[31m-    // Penny loop[m
+[31m-    while (change >= 1)[m
+[31m-    {[m
+[31m-        change -= 1;[m
+[31m-        counter++;[m
+[31m-        //printf("gave back a penny, total change is now %i, and remaining money is %i\n", counter, change);[m
+[31m-    }[m
+[31m-    printf("%i\n", counter); //print out total number of coins as change.[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/pset1/hello/hello.c b/pset1/hello/hello.c[m
+[1mdeleted file mode 100644[m
+[1mindex 68aa39a..0000000[m
+[1m--- a/pset1/hello/hello.c[m
+[1m+++ /dev/null[m
+[36m@@ -1,7 +0,0 @@[m
+[31m-#include <stdio.h>[m
+[31m-[m
+[31m-int main(void)[m
+[31m-{[m
+[31m-    //Print hello world to the screen[m
+[31m-    printf("hello, world\n");[m
+[31m-}[m
+[1mdiff --git a/pset1/mario/more/mario.c b/pset1/mario/more/mario.c[m
+[1mdeleted file mode 100644[m
+[1mindex c545d74..0000000[m
+[1m--- a/pset1/mario/more/mario.c[m
+[1m+++ /dev/null[m
+[36m@@ -1,39 +0,0 @@[m
+[31m-#include <stdio.h>[m
+[31m-#include <cs50.h>[m
+[31m-[m
+[31m-int main(void)[m
+[31m-{[m
+[31m-    //Ask user for a number between 1 and 23[m
+[31m-    int height = get_int("Height: ");[m
+[31m-    //Check user input to verify it is less than 24[m
+[31m-    while (height > 23)[m
+[31m-    {[m
+[31m-        height = get_int("Height: ");[m
+[31m-    }[m
+[31m-    while (height < 0)[m
+[31m-    {[m
+[31m-        height = get_int("Height: ");[m
+[31m-    }[m
+[31m-    //Loop to print pyramids on screen[m
+[31m-    //Loop to move through rows[m
+[31m-    for (int row = 1; row <= height; row++)[m
+[31m-    {[m
+[31m-        // Loop to print spaces[m
+[31m-        for (int i = 0; i < (height - row); i++)[m
+[31m-        {[m
+[31m-            printf(" ");[m
+[31m-        }[m
+[31m-        // loop to print hashes[m
+[31m-        for (int i = 0; i < (row); i++)[m
+[31m-        {[m
+[31m-            printf("#");[m
+[31m-        }[m
+[31m-        printf("  ");  // create 2 spaces for chasim[m
+[31m-        // loop to print other side of pyramid[m
+[31m-        for (int i = 0; i < (row); i++)[m
+[31m-        {[m
+[31m-            printf("#");[m
+[31m-        }[m
+[31m-        printf("\n"); // new line at end of row[m
+[31m-    }[m
+[31m-}[m
+\ No newline at end of file[m
+[1mdiff --git a/pset2/caesar/caesar.c b/pset2/caesar/caesar.c[m
+[1mindex 2a4e27a..614399a 100644[m
+[1m--- a/pset2/caesar/caesar.c[m
+[1m+++ b/pset2/caesar/caesar.c[m
+[36m@@ -47,4 +47,5 @@[m [mint main (int argc, string argv[])[m
+         }[m
+     }[m
+     printf("\n");[m
+[32m+[m[32m    return 1;[m
+ }[m
+\ No newline at end of file[m

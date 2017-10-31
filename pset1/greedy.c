@@ -13,12 +13,10 @@ int main(void)
     }
     //Cast Float to an int
     userchange *= 100;
-    //printf("%f", round(userchange));
     userchange = round(userchange);
     int change = (int)userchange;
     //Declare counter variable to keep track of how many coins are returned
     int counter = 0;
-    //printf("counter is now %i, and remaining money is %i\n", counter, change);
     // Quarter loop
     while (change >= 25)
     {
