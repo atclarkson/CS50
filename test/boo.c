@@ -7,4 +7,5 @@ int main(void)
     setlocale(LC_ALL, "");
     wchar_t pumpkin = 0x1F383;
     printf("%lc\n", pumpkin);
+    printf("Happy Halloween!");
 }
